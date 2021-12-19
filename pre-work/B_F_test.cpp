@@ -34,11 +34,24 @@ int main() {
     cout << res3_1 << ", " << res3_2 << ", " << res3_3 << endl;    
 
     // Test sides_make_triangle
+    bool res4_1 = sides_make_triangle(10, 15, 20);
+    bool res4_2 = sides_make_triangle(10, 10, 20);
+    bool res4_3 = sides_make_triangle(942,7478,8991);
+    cout << "Triangle Sides\n";
+    cout << res4_1 << ", " << res4_2 << ", " << res4_3 << endl;
 
     // Test angles_make_triangle
+    bool res5_1 = angles_make_triangle(45, 45, 90);
+    bool res5_2 = angles_make_triangle(30, 60, 85);
+    cout << "Triangle Angles\n";
+    cout << res5_1 << ", " << res5_2 << endl;
+
 
     // Test is_a_leap_year
-
+    bool res6_1 = is_a_leap_year(2012);
+    bool res6_2 = is_a_leap_year(2013);
+    cout << "Leap Year\n";
+    cout << res6_1 << ", " << res6_2 << endl;
     return(0);
     
 }

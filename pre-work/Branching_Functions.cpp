@@ -52,23 +52,69 @@ int min_of_5(int n1, int n2, int n3, int n4, int n5) {
     return(min_num);
 }
 
-/*
+
 // Given three lengths, this function returns whether they can be the
 // sides of some triangle
 
 bool sides_make_triangle(int a, int b, int c) {
-// TODO - YOUR CODE HERE
+
+    int longest = a;
+    int short1 = b;
+    int short2 = c;
+
+    if (short1 > longest || short2 > longest) { 
+        if (short2 > short1) {
+            longest = c;
+            short1 = a;
+            short2 = b;
+        }
+        else if (short1 > longest) {
+            longest = b;
+            short1 = a;
+            short2 = c;
+        }
+    }
+
+    return ((short1 + short2) > longest);
+    
 }
 
 // Given three angles as integer degrees, this function returns whether
 // they can be internal angles of some triangle
 
 bool angles_make_triangle(int A, int B, int C) {
-// TODO - YOUR CODE HERE
+
+    return ((A + B + C) == 180);
+
 }
+
 
 // Returns true if the year yyyy is a leap year and false if not.
 bool is_a_leap_year(int yyyy) {
-// TODO - YOUR CODE HERE
+
+    bool leap = true;
+
+    if (yyyy % 4 != 0)
+    {
+        leap = false;
+    }
+    else
+    {
+        if (yyyy % 100 != 0)
+        {
+            leap = true;
+        }
+        else
+        {
+            if (yyyy % 400 == 0)
+            {
+                leap = true;
+            }
+            else
+            {
+                leap = false;
+            }
+        }
+    }
+    return leap;
 }
-*/
