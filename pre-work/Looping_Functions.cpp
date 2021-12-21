@@ -80,8 +80,24 @@ size_t count_chars(string s, char c) {
 }
 
 // Use Euclid's algorithm to calculate the GCD of the given numbers
+/* From Wikipedia: In the subtraction-based version, 
+which was Euclid's original version, 
+the remainder calculation (b := a mod b) is replaced by repeated subtraction.
+Contrary to the division-based version, which works with arbitrary integers as input, 
+the subtraction-based version supposes that the input consists of positive integers 
+and stops when a = b
+*/
 size_t gcd(size_t a, size_t b) {
 // TODO - Your code here
+    while (a != b) {
+        if (a > b) {
+            a = a - b;
+        }
+        else {
+            b = b - a;
+        }
+    }
+    return(a);
 }
 
 // Return a string of the form n1,n2,n3,... for the given AP.
