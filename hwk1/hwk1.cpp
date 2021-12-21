@@ -45,7 +45,7 @@ class Movie {
         void set_seats_available(int m_seats_available);
         void set_ticket_price(double m_ticket_price);
         // Helpers
-        void Display( ) const;
+        void display( ) const;
 };
 
 // Variables
@@ -76,7 +76,7 @@ void Movie::set_seats_available(int m_seats_available) {seats_available = m_seat
 void Movie::set_ticket_price(double m_ticket_price) {ticket_price = m_ticket_price;}
 
 // Helper functions
-void Movie::Display( ) const {
+void Movie::display( ) const {
     cout << "Movie name: " << movie_name << endl
          << "Ticket price: $" << ticket_price << endl
          << "Seats available: " << seats_available << endl;
@@ -93,8 +93,12 @@ class MovieTicketMaster {
         int movie_count;
 
         // Member functions
-        string GetUserChoice();
+        int GetUserChoice();
         void Quit();
+        void HandleInvalidInput(int selection);
+        int FindMovie(string movie_name, int kSize);
+        int SearchMovie(int kSize);
+        int ViewMovies(int kSize);
 
     public:
         static const string DEFAULT_THEATER_NAME;
@@ -117,10 +121,11 @@ class MovieTicketMaster {
 
         // Public member functions
         void Init();
-        void ShowFruits();
+        void Menu();
         void Run();
-        int Find(string fruit, double seats_available);
-        int Order(int res, double seats_available);
+        int FindMovie
+    (string movie_name, double seats_available);
+        int PurchaseTickets(int res, double seats_available);
 };
 
 // Variables ---------------------------------------
@@ -151,14 +156,13 @@ void MovieTicketMaster::set_theater_location(string m_theater_location) {theater
 void MovieTicketMaster::set_movie_count(int m_movie_count) {movie_count = m_movie_count;}
 
 void MovieTicketMaster::Init() {
-
     const int kSize = 8;
     string movie_names[kSize] = {"Star Wars", "Toy Story", "Tarzan", "The Godfather", 
                                 "Pulp Fiction", "Casablanca", "Vertigo", "Citizen Kane"};
     double movie_prices[kSize] = {11.99, 11.99, 15.99, 6.99, 11.99, 14.99, 11.99, 15.99};
     int movie_seats[kSize] = {100, 85, 80, 85, 100, 65, 75, 50};
 
-    for (int i=0; i<MOVIE_LIST_SIZE; i++) {
+    for (int i=0; i<kSize; i++) {
             movie_list[i].set_movie_name(movie_names[i]);
             movie_list[i].set_ticket_price(movie_prices[i]);
             movie_list[i].set_seats_available(movie_seats[i]);
@@ -166,36 +170,68 @@ void MovieTicketMaster::Init() {
 }
 
 
-void MovieTicketMaster::ShowFruits() {
+void MovieTicketMaster::Menu() {
 
-    cout << "      *************************\n";
-    cout << "           FRUIT INVENTORY\n";
-    cout << "        Movie / Price / Weight\n";
-    cout << "      *************************\n";
+    cout << "   *************************\n";
+    cout << "      MOVIE TICKET MASTER\n";
+    cout << "   *************************\n";
+    cout << " Theater: " << theater_name << "at " << theater_location << endl;
+    cout << "   *************************\n";
+    cout << " 1. View all movies\n";
+    cout << " 2. Search a movie\n";
+    cout << " 3. Purchase tickets\n";
+    cout << " 4. Quit\n";
+    cout << "   *************************\n";
+}
 
-    for (int i=0; i<MOVIE_LIST_SIZE; i++){ 
-        movie_list[i].Movie::Display();
+int MovieTicketMaster::GetUserChoice() {
+    int selection;
+    cout << "Please choose an option from the menu (1-4): ";
+    cin >> selection;
+
+    if (cin.fail()) {
+        cin.clear();
+        cin.ignore();
+        cout << endl;
+        return 0;
+    }
+    else{
+        return selection;
     }
 }
 
-int MovieTicketMaster::Find(string fruit, double seats_available) {
-    for (int i=0; i<MOVIE_LIST_SIZE; i++) {  
-        if (fruit == movie_list[i].get_movie_name()) { 
+int MovieTicketMaster::SearchMovie(int kSize) {
+    string movie_name;
+    int kSize;
+    cout << "Enter a movie name: ";
+    getline (cin, movie_name);
+    FindMovie(movie_name, int kSize);
+}
+int MovieTicketMaster::FindMovie(string movie_name, int kSize) {
+    for (int i=0; i<kSize; i++) {  
+        if (movie_name == movie_list[i].get_movie_name()) { 
             return i;
         }
     }
     return -1;
 }
 
-int MovieTicketMaster::Order(int res, double seats_available) {
+int MovieTicketMaster::ViewMovies(int kSize) {
+    for (int i=0; i<kSize; i++) {  
+        movie_list[i].display();
+        cout << endl;
+        }
+    }
+}
+
+int MovieTicketMaster::PurchaseTickets(int res, double seats_available) {
     if(seats_available > movie_list[res].get_seats_available()) {
         cout << "We do not have enough " << movie_list[res].get_movie_name() 
              << " to fulfill your order";
         return -1;
     }
     else {
-        double cost = seats_available * movie_list[res].get_ticket_price() * 
-            (1.0 + get_tax_rate());
+        double cost = seats_available * movie_list[res].get_ticket_price();
         cout << "Cost for " << seats_available << " of " 
              << movie_list[res].get_movie_name()
              << " is $" << cost << endl; 
@@ -204,45 +240,30 @@ int MovieTicketMaster::Order(int res, double seats_available) {
 }
 
 void MovieTicketMaster::Run() {
-    string user_input;
-    string movie_name;
-    double seats_available;
-
-    cout << "*** Welcome to " << endl
-         << get_theater_name() << endl
-         << get_theater_location() << endl
-         << "***Watermelon\n";
-
+    int selection = 1;
     do
     {
-        cout << "\nEnter 'order' or 'XXX' to quit: ";
-        getline(cin, user_input);
-
-        if (user_input == "order" || user_input == "ORDER" || user_input == "Order") {
-            cout << "Enter fruit name: ";
-            getline(cin, movie_name
-);
-            cout << "Enter seats_available to purchase: ";
-            cin >> seats_available;
-            cin.ignore(); //needed to clear the '\n' in the buffer after a cin >>
-            cout << "Ordering: " << movie_name
- << ", " << seats_available << endl;
-
-            int res = Find(movie_name
-, seats_available);
-            if (res > -1) {
-                Order(res, seats_available);
-            } 
-            else {
-                cout << "Movie not found" << endl;
-            }
-            
-        }
-        else if (user_input == "xxx" || user_input == "XXX") {
-            Quit();
+        Menu();
+        selection = GetUserChoice();
+        switch (selection){
+            case 1:
+                ViewMovies();
+                break;
+            case 2:
+                SearchMovie();
+                break;
+            case 3:
+                PurchaseTicket();
+                break;
+            case 4:
+                Quit();
+                break;
+            default: // Handles the '0' return
+                HandleInvalidInput(selection);
+                break;
         }
     }
-    while (user_input != "xxx" || user_input != "XXX");
+    while (selection != 4);
 }
 
 void MovieTicketMaster::Quit() {
@@ -250,12 +271,16 @@ void MovieTicketMaster::Quit() {
     exit(0);
 }
 
+void MovieTicketMaster::HandleInvalidInput(int selection) {
+    cout << selection << " is an invalid input, please try again\n\n\n";
+}
+
 
 //---------------------------------------------------------------
 
 int main() {
 
-    MovieTicketMaster theater1("AMC Mercado", "Santa Clara", 16);
+    MovieTicketMaster theater1("AMC Mercado", "Santa Clara", 100);
     cout << theater1.get_theater_name() << endl;
     cout << theater1.get_theater_location() << endl;
     cout << theater1.get_movie_count() << endl;
