@@ -70,9 +70,16 @@ double etox(double x, size_t n) {
 // Return the number of occurrences of char c in string s
 size_t count_chars(string s, char c) {
 // TODO - Your code here
+    int res{0};
+    for (int i=0; i<s.length(); i++) {
+        if (s[i] == c) {
+            res++;
+        }
+    }
+    return(res);
 }
-// Use Euclid's algorithm to calculate the GCD of the given numbers
 
+// Use Euclid's algorithm to calculate the GCD of the given numbers
 size_t gcd(size_t a, size_t b) {
 // TODO - Your code here
 }
