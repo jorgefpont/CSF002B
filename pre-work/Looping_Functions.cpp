@@ -57,13 +57,12 @@ double etox(double x, size_t n) {
             powers[j] = powers[j-1] * x;
         }
     }
-
     double res = 0;
     for (int i=0; i<n; i++) {
         //cout << powers[i] << " -- " << factorials[i] << endl;
         res = res + (powers[i]/factorials[i]);
     }
-    cout << "E to x = " << res << endl;
+    return(res);
 }
 
 
@@ -82,10 +81,10 @@ size_t count_chars(string s, char c) {
 // Use Euclid's algorithm to calculate the GCD of the given numbers
 /* From Wikipedia: In the subtraction-based version, 
 which was Euclid's original version, 
-the remainder calculation (b := a mod b) is replaced by repeated subtraction.
-Contrary to the division-based version, which works with arbitrary integers as input, 
-the subtraction-based version supposes that the input consists of positive integers 
-and stops when a = b
+Contrary to the division-based version, 
+which works with arbitrary integers as input, 
+the subtraction-based version supposes that the input 
+consists of positive integers and stops when a = b
 */
 size_t gcd(size_t a, size_t b) {
 // TODO - Your code here
@@ -101,17 +100,18 @@ size_t gcd(size_t a, size_t b) {
 }
 
 // Return a string of the form n1,n2,n3,... for the given AP.
-
 string get_ap_terms(int a, int d, size_t n) {
 // TODO - Your code here
+    return("yes");
 }
 
 // Return a string of the form n1,n2,n3,... for the given GP.
-
 string get_gp_terms(double a, double r, size_t n) {
 // TODO - Your code here
+    return("yes");
 }
 
 double get_nth_fibonacci_number(size_t n) {
 // TODO - Your code here
+    return(0);
 }

@@ -21,8 +21,20 @@ double etox(double x, int n) {
         //cout << powers[i] << " -- " << factorials[i] << endl;
         res = res + (powers[i]/factorials[i]);
     }
-    cout << "E to x = " << res << endl;
+    return(res);
+}
 
+int gcd(int a, int b) {
+// TODO - Your code here
+    while (a != b) {
+        if (a > b) {
+            a = a - b;
+        }
+        else {
+            b = b - a;
+        }
+    }
+    return(a);
 }
 
 int main() {
@@ -30,6 +42,10 @@ int main() {
     int n;
     cout << "Enter x and n(num terms): ";
     cin >> x >> n;
-    etox(x, n);
+    cout << "E to x = " << etox(x, n) << endl << endl;
+
+    cout << "GCD for 15/5, 210/45, 1024/99\n";
+    cout << gcd(15,5) << ", " << gcd(210,45) << ", " << gcd(1024,99) << endl;
+
     return 0;
 }
